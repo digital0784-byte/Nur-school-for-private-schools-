@@ -1,0 +1,6 @@
+{
+  "name": "NUR School",
+  "description": "All-in-One Enterprise School ERP, LMS, and AI-Powered Learning Platform with Bilingual Amharic and English Support",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
