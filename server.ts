@@ -3,6 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
+import { authRouter } from "./server/auth";
 
 dotenv.config();
 
@@ -29,6 +30,9 @@ function getAI(): GoogleGenAI | null {
 async function startServer() {
   const app = express();
   app.use(express.json());
+
+  // Auth routes
+  app.use("/api/auth", authRouter);
 
   // Health check
   app.get("/api/health", (_req, res) => {

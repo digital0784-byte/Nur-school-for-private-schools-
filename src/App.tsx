@@ -3,8 +3,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AppProvider, useApp } from "./context/AppContext";
+import { AuthProvider, useAuth } from "./context/AuthContext";
+import { LoginPage } from "./components/auth/LoginPage";
+import { RegisterPage } from "./components/auth/RegisterPage";
 import { Header } from "./components/common/Header";
 import { Sidebar } from "./components/common/Sidebar";
 import { NotificationDrawer } from "./components/common/NotificationDrawer";
@@ -43,8 +46,25 @@ import { ParentTeacherChat } from "./components/parent/ParentTeacherChat";
 import { CheckCircle2, AlertCircle, Info, AlertTriangle } from "lucide-react";
 
 const AppContent: React.FC = () => {
-  const { activeTab, toasts, contentWidth } = useApp();
+  const { activeTab, toasts, contentWidth, userRole, setUserRole } = useApp();
+  const { user, isAuthModalOpen, authModalMode, closeAuthModal, openLoginModal, openRegisterModal } = useAuth();
+  const [authView, setAuthView] = useState<"login" | "register">("login");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Synchronize active user role when logged-in account changes
+  useEffect(() => {
+    if (user && user.role && user.role !== userRole) {
+      setUserRole(user.role);
+    }
+  }, [user]);
+
+  // If user is not logged in, render authentication portal
+  if (!user) {
+    if (authView === "register") {
+      return <RegisterPage onSwitchToLogin={() => setAuthView("login")} />;
+    }
+    return <LoginPage onSwitchToRegister={() => setAuthView("register")} />;
+  }
 
   const renderActiveView = () => {
     switch (activeTab) {
@@ -137,6 +157,28 @@ const AppContent: React.FC = () => {
       {/* Official Receipt Modal */}
       <ReceiptModal />
 
+      {/* Auth Modal Overlay when opened while logged in */}
+      {isAuthModalOpen && (
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="relative w-full max-w-lg bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-800 animate-in zoom-in-95 duration-200">
+            <button
+              onClick={closeAuthModal}
+              className="absolute top-4 right-4 p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 z-10 transition-colors font-bold text-sm"
+              title="Close"
+            >
+              ✕
+            </button>
+            <div className="max-h-[90vh] overflow-y-auto">
+              {authModalMode === "register" ? (
+                <RegisterPage onSwitchToLogin={() => openLoginModal()} />
+              ) : (
+                <LoginPage onSwitchToRegister={() => openRegisterModal()} />
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Floating System Toasts */}
       {toasts.length > 0 && (
         <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none">
@@ -165,8 +207,10 @@ const AppContent: React.FC = () => {
 
 export default function App() {
   return (
-    <AppProvider>
-      <AppContent />
-    </AppProvider>
+    <AuthProvider>
+      <AppProvider>
+        <AppContent />
+      </AppProvider>
+    </AuthProvider>
   );
 }

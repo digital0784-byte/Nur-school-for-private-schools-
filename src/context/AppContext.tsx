@@ -81,6 +81,7 @@ interface AppContextType {
   setSelectedChildId: (id: string) => void;
   toasts: Toast[];
   showToast: (message: string, type?: "success" | "info" | "error") => void;
+  addToast: (message: string, type?: "success" | "info" | "error") => void;
   isNotificationDrawerOpen: boolean;
   setIsNotificationDrawerOpen: (open: boolean) => void;
 
@@ -403,6 +404,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setSelectedChildId,
         toasts,
         showToast,
+        addToast: showToast,
         isNotificationDrawerOpen,
         setIsNotificationDrawerOpen,
         layoutStyle,

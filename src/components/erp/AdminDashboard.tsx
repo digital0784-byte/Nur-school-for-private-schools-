@@ -35,7 +35,11 @@ export const AdminDashboard: React.FC = () => {
         <div className="relative z-10 max-w-2xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-xs font-semibold mb-3 border border-white/20">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-            <span>Academic Term 2026/2027 • Q1 Active</span>
+            <span>
+              {language === "am"
+                ? "የትምህርት ዘመን 2019 ዓ.ም • 1ኛ ወሰነ-ትምህርት"
+                : "Academic Term 2019 E.C. (2026/2027) • Q1 Active"}
+            </span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black tracking-tight">
             {language === "am"

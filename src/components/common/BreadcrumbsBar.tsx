@@ -111,7 +111,7 @@ export const BreadcrumbsBar: React.FC = () => {
         <div className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100/90 dark:bg-slate-800/80 border border-slate-200/70 dark:border-slate-700/60 text-xs font-bold text-slate-700 dark:text-slate-300">
           <span className="text-xs">📅</span>
           <span>
-            {language === "am" ? "2017 ዓ.ም • 1ኛ ወሰነ-ትምህርት" : "2024-2025 • Term 1"}
+            {language === "am" ? "2019 ዓ.ም • 1ኛ ወሰነ-ትምህርት" : "2019 E.C. (2026-2027) • Term 1"}
           </span>
         </div>
 

@@ -175,7 +175,9 @@ export const GradebookReportCards: React.FC = () => {
                   {language === "am" ? "ኑር ትምህርት ቤት - አዲስ አበባ" : "NUR SCHOOL — ADDIS ABABA"}
                 </h2>
                 <p className="text-xs text-slate-500 dark:text-slate-400">
-                  Comprehensive Secondary Education Transcript • Q1 2026/2027
+                  {language === "am"
+                    ? "የተማሪዎች አጠቃላይ የውጤት መግለጫ (Transcript) • 2019 ዓ.ም 1ኛ ወሰነ-ትምህርት"
+                    : "Comprehensive Secondary Education Transcript • 2019 E.C. (2026/2027) Term 1"}
                 </p>
               </div>
 
